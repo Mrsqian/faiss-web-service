@@ -38,19 +38,36 @@ English Readme is [here](./README-EN.md).
 
 ### 准备环境
 
-可以到 [the docker hub image](https://hub.docker.com/r/plippe/faiss-web-service/) 下载基础镜像:
+直接使用docker， 由于提取图片特征向量时，需要用到Opencv，所以我在 plippe 镜像的基础上又安装了 Opencv 3.2 ，这样子就可以直接在镜像内部训练 Fiass 索引了。
+可以到 [the docker hub image](https://hub.docker.com/r/waltyou/faiss-api-service/) 下载基础镜像:
 
 ```sh
-docker pull plippe/faiss-web-service:1.2.1-gpu
+docker pull waltyou/faiss-api-service:1.2.1-gpu
 ```
 
-由于提取图片特征向量时，需要用到Opencv，所以还需要在镜像中安装它。
+如果对本项目代码进行了更新，可以重新build docker 镜像， dockerfile 内容可以参考以下：
+```
+FROM waltyou/faiss-api-service:1.2.1-gpu
+
+COPY src /opt/faiss-web-service/src
+COPY bin /opt/faiss-web-service/bin
+
+```
+
+### 运行
+
+进入docker container 中，运行 bin/faiss_web_service.sh 即可。
 
 ## API 使用规则
 
 ### 构建索引
 
-启动docker 容器，进入容器中，运行：
+启动docker 容器，进入容器中:
+```bash
+docker run -it --rm waltyou/faiss-api-service:1.2.1-gpu bash
+```
+
+在容器内部运行：
 
 ```bash
 cd src/train_index
@@ -70,10 +87,6 @@ curl 'localhost:5000/faiss/search' -X POST -d '{"k": 5, "image": “/image/path/
 curl 'localhost:5000/faiss/search' -X POST -d '{"k": 5, "vectors": “/vector/file/path”}'
 ```
 
-## 运行
-
-进入docker container 中，运行 bin/faiss_web_service.sh 即可。
-
 ### 检测状态
 
 检测镜像是否成功启动：
@@ -82,3 +95,9 @@ curl 'localhost:5000/faiss/search' -X POST -d '{"k": 5, "vectors": “/vector/fi
 curl 'localhost:5000/ping'
 
 ```
+
+# 常见问题
+
+## 1. 如果不是以"production"作为参数运行 bin/faiss_web_service.sh 的话，会提示： Failed to load python module uwsgi 。
+
+回答如下：https://www.cnblogs.com/lazyboy/archive/2013/06/03/3115451.html

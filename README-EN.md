@@ -43,13 +43,11 @@ Code location：`src/train_index/train_index_from_java.py`。
 
 ### Prepare
 
-Go to [the docker hub image](https://hub.docker.com/r/plippe/faiss-web-service/) download base image:
+I have install Opencv 3.2 for extract feature base on original docker image. You can go [the docker hub image](https://hub.docker.com/r/waltyou/faiss-api-service/) download base image:
 
 ```sh
-docker pull plippe/faiss-web-service:1.2.1-gpu
+docker pull waltyou/faiss-api-service:1.2.1-gpu
 ```
-
-We need install OpenCv for extract feature.
 
 ## API Using Guide
 
