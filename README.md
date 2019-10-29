@@ -100,4 +100,4 @@ curl 'localhost:5000/ping'
 
 ## 1. 如果不是以"production"作为参数运行 bin/faiss_web_service.sh 的话，会提示： Failed to load python module uwsgi 。
 
-回答如下：https://www.cnblogs.com/lazyboy/archive/2013/06/03/3115451.html
+可以忽略这个报错，如果你觉得这个错误很烦人的话，可以注释掉 `src/faiss_index/blueprint.py` 中的第9、10行。原因可以参考这里：https://www.cnblogs.com/lazyboy/archive/2013/06/03/3115451.html 。
